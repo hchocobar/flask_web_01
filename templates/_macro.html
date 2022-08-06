@@ -1,0 +1,18 @@
+<!-- Archivo para código html reutilizable mediante funciones -->
+{% macro muestra_bloque_reutilizable(value) %}
+  <div class="container bg-dark">
+    <h2 class="text-light">  {{ value }} </h2>
+  </div>
+{% endmacro %}
+
+{% macro render_field(field) %}
+  <td> {{ field.label }} </td>
+  <dd> {{ field(**kwargs)|safe }} </dd>
+  {% if field.errors %}
+    <ul>
+      {% for error in field.errors %}
+        <li> {{ error }} </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endmacro %}

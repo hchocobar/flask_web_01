@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+{% block title %} {{ title }} {% endblock %}
+{% block content %}
+
+  <!-- Importamos código reutilizable del archivo _macro.html y lo ejecutamos utilizando funciones con parámetros -->
+  {% from "_macro.html" import muestra_bloque_reutilizable %}
+  {{ muestra_bloque_reutilizable( 'Página de Inicio' ) }}
+
+  <div class="container"></div>
+
+  <div class="alert alert-success">
+    <p>archivo: index.html</p>
+  </div>
+
+{% endblock %}
+

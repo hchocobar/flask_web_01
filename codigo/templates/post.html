@@ -1,0 +1,56 @@
+{% extends 'base/base.html'%}
+
+{%block title%}New Post{%endblock%}
+
+{%block content%}
+
+{% from "_macro.html" import render_field %}
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+			<br><br>
+			<h1>{{post.title}}</h1>
+			<div class="text-justify">{{post.content}}</div>
+			<div></div>
+			<hr>
+
+			<div>
+				<form method="POST">
+					<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+					<div class="row control-group">
+						<div class="form-group col-xs-12 fliating-label-form-group controls">
+							{{ render_field(form.comment, class='form-control') }}
+							<p class="help-block text-danger"></p>
+						</div>
+					</div>
+					<br>
+					{{ form.honeypot }}
+					<div class="success"></div>
+					<div class="row">
+						<div class="form-group col-xs-12">
+							<button class="btn btn-default">Send</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+	{% if comments %}
+	{% for comment in comments.items %}
+
+	<div class="row">
+		<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+			<hr>
+			<h5><strong>{{comment.username}}</strong> {{date_format(comment.create_date)}}</h5>
+			<p>{{comment.text}}</p>
+		</div>
+	</div>
+
+	{% endfor %}
+	{% endif %}
+</div>
+{%endblock%}
