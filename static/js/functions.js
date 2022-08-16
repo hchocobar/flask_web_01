@@ -1,5 +1,4 @@
 $(document).ready(function(){
-
     function ajax_login(){
         $.ajax({
             url: '/ajax-login',
@@ -8,13 +7,13 @@ $(document).ready(function(){
             success: function(response) {
                 console.log(response);
             },
-            error: function(error) {
-                console.log(error);
+            error: function(response) {
+                console.log(response);
             }
         });
     }
 
-    $( '#loginForm' ).submit(function( event ) {
+    $('#loginForm').submit(function( event ) {
         event.preventDefault();
         ajax_login();
     });
