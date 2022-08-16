@@ -1,42 +1,57 @@
 from wtforms import Form
 from wtforms.fields import StringField, TextAreaField, EmailField, HiddenField, PasswordField
 from wtforms import validators
-
+from models import User
 
 def lenght_honeypot(form, field):
     if len(field.data) > 0:
         raise validators.ValidationError('El campo debe estar vacío')
 
 
+class ContactForm(Form):
+    name = StringField('Nombre y Apellido',
+                       [validators.InputRequired(message='El campo es requerido'),
+                        validators.Length(min=8, max=25, message='El nombre de usuario debe tener un mínimo de 8 '
+                                                                 'caracteres y un máximo de 25')])
+    email = EmailField('Correo electrónico',
+                       [validators.InputRequired(message='El email es requerido'),
+                        validators.Length(min=4, max=50, message='Ingrese un email válido')])
+    consult = TextAreaField('Consulta')
+    # este campo es para evitar el spam en el formulario
+    honeypot = HiddenField('', [lenght_honeypot])
+
+
 class CommentForm(Form):
-    username = StringField('username',
-                           [validators.DataRequired(message='El campo es requerido'),
-                            validators.length(min=8, max=25, message='El nombre de usuario debe tener un mínimo de 8 '
-                                                                     'caracteres y un máximo de 25')
-                            ])
-    email = EmailField('Correo electrónico', [validators.DataRequired(message='El campo es requerido')])
-                                              # validators.Email(message='ingrese un email válido')
-    comment = TextAreaField('Comentario')
+    comment = TextAreaField('Comentario',
+                            [validators.InputRequired(message='Comentario vacío')])
     # este campo es para evitar el spam en el formulario
     honeypot = HiddenField('', [lenght_honeypot])
 
 
 class LoginForm(Form):
     username = StringField('Username',
-                           [validators.DataRequired(message='El nombre de usuario es requerido'),
-                            validators.length(min=8, max=25, message='Ingrese el nombre un username válido')])
+                           [validators.InputRequired(message='El nombre de usuario es requerido'),
+                            validators.Length(min=8, max=25, message='El nombre de usuario debe tener un mínimo de 8 '
+                                                                     'caracteres y un máximo de 25')])
     password = PasswordField('Password',
-                             [validators.DataRequired(message='El password es requerido')])
+                             [validators.InputRequired(message='El password es requerido')])
     honeypot = HiddenField('', [lenght_honeypot])
 
 
-""" Validaciones
-- Agregar validaciones en la creación de los campos en la clase (forms.py)
-- Agregar el condicional .validate() en main.py
-- Mostrar los field.errors en _macro.html 
-"""
+class SignupForm(Form):
+    username = StringField('Username',
+                           [validators.InputRequired(message='El nombre de usuario es requerido'),
+                            validators.Length(min=8, max=25, message='El nombre de usuario debe tener un mínimo de 8 '
+                                                                     'caracteres y un máximo de 25')])
+    email = EmailField('Correo electrónico',
+                       [validators.InputRequired(message='El email es requerido'),
+                        validators.Length(min=4, max=50, message='Ingrese un email válido')])
+    # validators.Email(message='Ingrese un email válido'),
+    password = PasswordField('Password',
+                             [validators.InputRequired(message='El password es requerido')])
 
-""" honeypot (una forma de prevenir el spam en los formularios)
-- Agregar el atributo en la clase (form.py)
-- Agregar el campo en el formulario (contact.html / blog.html) 
-"""
+    def validate_username(form, field):  # realizo overwrite del método validate de username
+        username = field.data
+        user = User.query.filter_by(username=username).first()
+        if user is not None:
+            raise validators.ValidationError('Ese username no está disponible')

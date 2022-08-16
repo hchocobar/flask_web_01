@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+{% block title %} {{ title }} {% endblock %}
+{% block content %}
+  <!-- Importamos código reutilizable del archivo _macro.html y lo ejecutamos utilizando funciones con parámetros -->
+  {% from "_macro.html" import muestra_bloque_reutilizable %}
+  {{ muestra_bloque_reutilizable( 'Listado de Mensajes' ) }}
+
+  <!-- Importamos un formulario y lo mostramos -->
+  {% from "_macro.html" import render_field %}
+  <div class="container">
+    {% if comments %}
+      {% for comment in comments.items %}
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <hr>
+            <h2 class="section-heading">{{ comment.username }}</h2>
+            <h5>{{ date_format(comment.create_date) }}</h5>
+            <p>{{ comment.text }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+  <div class="alert alert-success">
+    <p>archivo: {{ title }}</p>
+  </div>
+
+{% endblock %}

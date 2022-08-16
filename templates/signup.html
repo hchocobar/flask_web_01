@@ -3,19 +3,25 @@
 {% block content %}
   <!-- Importamos código reutilizable del archivo _macro.html y lo ejecutamos utilizando funciones con parámetros -->
   {% from "_macro.html" import muestra_bloque_reutilizable %}
-  {{ muestra_bloque_reutilizable( 'Ingreso' ) }}
+  {{ muestra_bloque_reutilizable( 'Registrar Usuario' ) }}
 
   <!-- Importamos un formulario y lo mostramos -->
   {% from "_macro.html" import render_field %}
   <div class="container">
     <div class="row">
       <div class="col-lg-8">
-        <form name="login" id="loginForm" method="POST">
+        <form name="signup" id="signupForm" method="POST">
           <!-- agregamos input hidden con token csrf -->
           <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
           <div class="row control-group">
             <div class="form-group col-xs-12 floating-label-form-group controls">
               {{ render_field(form.username, class='form-control') }}
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+          <div class="row control-group">
+            <div class="form-group col-xs-12 floating-label-form-group controls">
+              {{ render_field(form.email, class='form-control') }}
               <p class="help-block text-danger"></p>
             </div>
           </div>
@@ -30,22 +36,15 @@
           <div id="success"></div>
           <div class="row">
             <div class="form-group col-xs-12">
-              <button type="submit" class="btn btn-primary">Enviar</button>
+              <button type="submit" class="btn btn-primary">Registrarme</button>
             </div>
           </div>
         </form>
-        <div class="row">
-          <div class="form-group col-xs-12">
-            <p class="py-3">
-              No tienes cuenta?<a href="/signup">Registrarme</a>
-            </p>
-          </div>
-        </div>
       </div>
     </div>
   </div>
 
   <div class="alert alert-success">
-    <p>archivo: login.html</p>
+    <p>archivo: signup.html</p>
   </div>
 {% endblock %}
