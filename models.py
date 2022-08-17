@@ -15,6 +15,7 @@ class User(db.Model):
     password = db.Column(db.String(103))  # 103 porque encriptamos la contraseña
     create_date = db.Column(db.DateTime, default=datetime.datetime.now)
     comments = db.relationship('Comment')
+    posts = db.relationship('Post')
 
     def __init__(self, username, password, email):
         self.username = username
@@ -33,6 +34,18 @@ class Comment(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeingnKey('users.id'))
+    posts_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
     text = db.Column(db.Text())
     create_date = db.Column(db.DataTime, default=datetime.datetime.now)
 
+
+class Post(db.Model):
+    __tablename__ = 'posts'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    title = db.Column(db.String(60))
+    content = db.Column(db.Text())
+    imagen = db.Column(db.Text(), default='None.jpg')
+    create_date = db.Column(db.DateTime, default=datetime.datetime.now)
+    posts = db.relationship('Comment')

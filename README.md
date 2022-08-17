@@ -6,8 +6,13 @@ Modelo de sitio web realizado con Flask, MySQL y Bootstrap.
 
 ## Funcionalidades
 
+- **Trabajamos con rutas.**
+- **Menús.**
+- **Renderizamos templates.**
+- **Formularios.**
 - **Seguridad:** sesiones, honeypot(), CSRFProtect.
-- **Base de datos:** MySQL a través de SQLAlchemy.
+- **Base de datos:** MySQL. 
+- **ORM:** SQLAlchemy.
 - **Autenticación:** Registración de usuario, encriptación de password en BD.
 - **Envío de Mail:** Comunicaciones al usuario. 
 
